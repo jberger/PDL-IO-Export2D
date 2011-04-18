@@ -1,0 +1,6 @@
+Revision history for Perl extension PDL::IO::Export2D.
+
+0.01  Sun Apr 17 19:24:12 2011
+	- original version; created by h2xs 1.23 with options
+		-X PDL::IO::Export2D
+
