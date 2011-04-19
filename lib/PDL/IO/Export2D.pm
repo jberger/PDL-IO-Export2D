@@ -87,7 +87,7 @@ Export2D
 
 =head1 DESCRIPTION
 
-Provides a convenient method for exporting a 2D piddle. C<export2d> is a wrapper around the standard C<PDL> method C<wcols> for exporting the entire piddle. The author was tired of having to extract the columns just to write them all to a file, and so set off to provide a solution. 
+Provides a convenient method for exporting a 2D piddle. C<export2d> is a wrapper around the standard C<PDL> method C<wcols> for exporting the entire piddle; use it to write to a 2D piddle as a CSV or other simple ASCII data format quickly and painlessly. The author was tired of having to extract the columns just to write them all to a file.
 
 =head1 PROVIDED METHOD
 
@@ -95,12 +95,12 @@ Provides a convenient method for exporting a 2D piddle. C<export2d> is a wrapper
 
  $pdl->export2d($fh, ',');
 
-C<export2d> may be called without any options. All default arguments will be used (print to STDOUT with a space as a column separator). It may also take a lexical filehandle or bareword filehandle reference (e.g. C<\*FILE>, N.B. the method checks for a globref). Also the method may take a string as a column separator. The order does not matter, the method will determine whether an argument refers to a file or not. In this way one may call either
+C<export2d> may take up to 2 optional arguments, a lexical filehandle (or globref, e.g. C<\*FILE>) to write to, and a string containing a column separator. The defaults, if arguments are not given are to print to STDOUT and use a single space as the column separator. The order does not matter, the method will determine whether an argument refers to a file or not. This is done so that one may call either
 
  $pdl->export2d($fh);
  $pdl->export2d(',');
 
-and it will do what you mean. Unfortunately this means that unlike C<wcols> one cannot use a filename rather than a filehandle; C<export2d> would interpret the string as the column separator!
+and it will do what you mean. Unfortunately this means that unlike C<wcols> one cannot use a filename rather than a filehandle; C<export2d> would interpret the string as the column separator! (Techspeak: if C<ref> returns C<GLOB> the argument is used as the filehandle, otherwise it is interpreted as the separator.)
 
 The method returns the number of columns that were written.
 
