@@ -1,7 +1,0 @@
-Changes
-Makefile.PL
-MANIFEST
-README
-t/basic.t
-t/non_standard.t
-lib/PDL/IO/Export2D.pm
