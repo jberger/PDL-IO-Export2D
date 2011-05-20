@@ -1,4 +1,4 @@
-PDL-IO-Export2D version 0.010
+PDL-IO-Export2D version 0.030
 =========================
 
 Provides a convenient method for exporting a 2D piddle. 'export2d' is a wrapper around the standard PDL method 'wcols' for exporting the entire piddle. The author was tired of having to extract the columns just to write them all to a file, and so set off to provide a solution.

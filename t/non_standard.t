@@ -1,5 +1,7 @@
 # Tests to check behavior when using a non-standard method name
 
+use Capture::Tiny qw/capture/;
+
 use Test::More tests => 19;
 BEGIN {
   use_ok('PDL');
@@ -13,9 +15,8 @@ BEGIN {
 
 # Test that method carps on non-2D piddles
 {
-  local $SIG{__WARN__} = sub{};
-  ok(! xvals(3,3,3)->my_test_export2d(), "Fails on 3d piddle");
-  ok(! xvals(3)->my_test_export2d(), "Fails on 1d piddle");
+  my ($stdout, $stderr) = capture { ok(! xvals(3,3,3)->my_test_export2d(), "Fails on 3d piddle") };
+  ($stdout, $stderr) = capture { ok(! xvals(3)->my_test_export2d(), "Fails on 1d piddle") };
 }
 
 my $pdl = xvals(5,4);
@@ -74,23 +75,21 @@ my $pdl = xvals(5,4);
 
 # test for output to STDOUT
 {
-  my $fake_file;
-  open my $fh, '>', \$fake_file;
-  local *STDOUT = $fh;
-  is($pdl->my_test_export2d(), 5, "Write correct number of columns to STDOUT (redirected)" );
+  my ($stdout, $stderr) = capture {
+    is($pdl->my_test_export2d(), 5, "Write correct number of columns to STDOUT (redirected)" )
+  };
 
-  my $test_pdl = pdl( map { [split / /, $_] }(split /\n/, $fake_file));
+  my $test_pdl = pdl( map { [split / /, $_] }(split /\n/, $stdout));
   ok( all( $pdl == $test_pdl ), "Write to STDOUT correctly");
 }
 
 # test for output to STDOUT, comma separated
 {
-  my $fake_file;
-  open my $fh, '>', \$fake_file;
-  local *STDOUT = $fh;
-  is($pdl->my_test_export2d(','), 5, "Write correct number of columns to STDOUT (redirected) (comma separated)" );
+  my ($stdout, $stderr) = capture {
+    is($pdl->my_test_export2d(','), 5, "Write correct number of columns to STDOUT (redirected) (comma separated)" )
+  };
 
-  my $test_pdl = pdl( map { [split /,/, $_] }(split /\n/, $fake_file));
+  my $test_pdl = pdl( map { [split /,/, $_] }(split /\n/, $stdout));
   ok( all( $pdl == $test_pdl ), "Write to STDOUT correctly (comma separated)");
 }
 

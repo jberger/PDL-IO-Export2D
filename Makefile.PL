@@ -9,4 +9,8 @@ WriteMakefile(
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT  => 'Provides a convenient method for exporting a 2D piddle.',
        AUTHOR         => 'Joel Berger <joel.a.berger@gmail.com>') : ()),
+    BUILD_REQUIRES    => {
+    	'Capture::Tiny'	=> 0,
+    	'Test::More'	=> 0,
+    },
 );

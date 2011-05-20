@@ -1,5 +1,8 @@
 Revision history for Perl extension PDL::IO::Export2D.
 
+0.03  Fri May 20 10:58:00 2011
+	- tests use Capture::Tiny to capture STDOUT and STDERR
+
 0.02  Thu May 19 22:47:00 2011
 	- filehandle test is now Scalar::Util::openhandle, not
 		just `ref $thing eq 'GLOB'`

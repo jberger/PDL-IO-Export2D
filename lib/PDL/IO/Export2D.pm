@@ -5,7 +5,7 @@ use 5.006000;
 use strict;
 use warnings;
 
-our $VERSION = 0.020;
+our $VERSION = 0.030;
 $VERSION = eval $VERSION;
 
 use Carp;
