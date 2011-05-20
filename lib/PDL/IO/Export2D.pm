@@ -5,11 +5,12 @@ use 5.006000;
 use strict;
 use warnings;
 
-our $VERSION = 0.010;
+our $VERSION = 0.020;
 $VERSION = eval $VERSION;
 
 use Carp;
 use PDL;
+use Scalar::Util qw/openhandle/;
 
 my $method_name = 'export2d';
 
@@ -46,7 +47,7 @@ sub export2d {
   # Parse additional input parameters
   while (@_) {
     my $param = shift;
-    if (ref $param eq 'GLOB') {
+    if (openhandle($param)) {
       $fh = $param;
     } else {
       $sep = $param;
@@ -100,7 +101,7 @@ C<export2d> may take up to 2 optional arguments, a lexical filehandle (or globre
  $pdl->export2d($fh);
  $pdl->export2d(',');
 
-and it will do what you mean. Unfortunately this means that unlike C<wcols> one cannot use a filename rather than a filehandle; C<export2d> would interpret the string as the column separator! (Techspeak: if C<ref> returns C<GLOB> the argument is used as the filehandle, otherwise it is interpreted as the separator.)
+and it will do what you mean. Unfortunately this means that unlike C<wcols> one cannot use a filename rather than a filehandle; C<export2d> would interpret the string as the column separator!
 
 The method returns the number of columns that were written.
 
@@ -115,6 +116,10 @@ causing the method provided by this module to be called as
  $pdl->my_export
 
 rather than the default name C<export2d>.
+
+=head1 SOURCE REPOSITORY
+
+L<http://github.com/jberger/PDL-IO-Export2D>
 
 =head1 AUTHOR
 

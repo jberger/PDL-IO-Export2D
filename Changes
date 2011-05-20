@@ -1,5 +1,11 @@
 Revision history for Perl extension PDL::IO::Export2D.
 
+0.02  Thu May 19 22:47:00 2011
+	- filehandle test is now Scalar::Util::openhandle, not
+		just `ref $thing eq 'GLOB'`
+	- documentation improvements
+	- repository added (http://github.com/jberger/PDL-IO-Export2D)
+
 0.01  Sun Apr 17 19:24:12 2011
 	- original version; created by h2xs 1.23 with options
 		-X PDL::IO::Export2D
