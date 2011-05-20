@@ -5,9 +5,6 @@ use 5.006000;
 use strict;
 use warnings;
 
-our $VERSION = 0.030;
-$VERSION = eval $VERSION;
-
 use Carp;
 use PDL;
 use Scalar::Util qw/openhandle/;
