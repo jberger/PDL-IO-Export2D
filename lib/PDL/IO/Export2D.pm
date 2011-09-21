@@ -5,64 +5,17 @@ use 5.006000;
 use strict;
 use warnings;
 
-use Carp;
-use PDL;
-use Scalar::Util qw/openhandle/;
-
-my $method_name = 'export2d';
+use PDL::Util 'add_pdl_method';
 
 sub import {
-  my $module_name = shift;
+  my $package = shift;
+  my ($method_name) = @_;
 
-  if (@_) {
-    $method_name = shift;
+  if (defined $method_name) {
+    add_pdl_method({$method_name => 'export2d'});
+  } else {
+    add_pdl_method(['export2d']);
   }
-
-  # Check to see if PDL already has a method by the same name
-  carp <<MESSAGE if PDL->can($method_name);
-PDL already provides a method named '$method_name', read the $module_name documentation to learn to avoid this conflict.
-MESSAGE
-
-  # Push method into the PDL namespace
-  no strict 'refs';
-  *{'PDL::' . $method_name} = \&export2d;
-}
-
-
-sub export2d {
-  my ($pdl, $fh, $sep);
-  $pdl = shift;
-  unless (ref $pdl eq 'PDL') {
-    carp "cannot call $method_name without a piddle input";
-    return 0;
-  }
-  unless ($pdl->ndims == 2) {
-    carp "$method_name may only be called on a 2D piddle";
-    return 0;
-  }
-
-  # Parse additional input parameters
-  while (@_) {
-    my $param = shift;
-    if (openhandle($param)) {
-      $fh = $param;
-    } else {
-      $sep = $param;
-    }
-  }
-
-  # Extract columns from piddle
-  my @params = map {$pdl->slice("($_),")} (0..$pdl->dim(0)-1);
-  my $num_cols = @params;
-
-  # Push additional parameters for wcols
-  push @params, $fh if (defined $fh); 
-  push @params, {Colsep => $sep} if (defined $sep);
-
-  # Write columns
-  wcols @params;
-
-  return $num_cols;
 }
 
 1;
@@ -71,7 +24,7 @@ __END__
 __POD__
 =head1 NAME
 
-Export2D
+PDL::IO::Export2D
 
 =head1 SYNOPSIS
 
@@ -82,6 +35,10 @@ Export2D
 
  open my $fh, '>', 'file.dat';
  $pdl->export2d($fh);
+
+=head1 DEPRECATION WARNING
+
+This module has be superceded (and indeed is now provided by) the L<PDL::Util> module. This module is kept for backwards compatibility for now, though I doubt many people were using it before this inclusion. For now it still works as described herein.
 
 =head1 DESCRIPTION
 
@@ -106,7 +63,7 @@ The method returns the number of columns that were written.
 
 The method is pushed into the C<PDL> namespace. Should C<PDL> ever provide method of the same name, this module will override it, warning with both the standard Perl redefinition warning as well as an additional message from the package. To avoid a conflict a different method name may be passed when loading the module. For example:
 
- use Export2D 'my_export';
+ use PDL::IO::Export2D 'my_export';
 
 causing the method provided by this module to be called as 
 
