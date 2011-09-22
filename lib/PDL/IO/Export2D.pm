@@ -6,10 +6,13 @@ use strict;
 use warnings;
 
 use PDL::Util 'add_pdl_method';
+use Carp;
 
 sub import {
   my $package = shift;
   my ($method_name) = @_;
+
+  carp "PDL::IO::Export2D has been deprecated in favor of the more expansive PDL::Utils module. It provides the same functionality as this one, please use it instead. This module may be removed in the future.";
 
   if (defined $method_name) {
     add_pdl_method({$method_name => 'export2d'});
