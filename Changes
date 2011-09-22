@@ -1,5 +1,9 @@
 Revision history for Perl extension PDL::IO::Export2D.
 
+0.04  Thu Sep 22 2001
+	- Deprecated in favor of PDL::Util
+	- This module still provides the same functionality, though it get is from PDL::Util's code
+
 0.03  Fri May 20 11:37:00 2011
 	- tests use Capture::Tiny to capture STDOUT and STDERR
 	- distribution is now done with Dist::Zilla

@@ -8,6 +8,10 @@
  open my $fh, '>', 'file.dat';
  $pdl->export2d($fh);
 
+=head1 DEPRECATION WARNING
+
+This module has be superceded (and indeed is now provided by) the L<PDL::Util> module. This module is kept for backwards compatibility for now, though I doubt many people were using it before this inclusion. For now it still works as described herein.
+
 =head1 DESCRIPTION
 
 Provides a convenient method for exporting a 2D piddle. C<export2d> is a wrapper around the standard C<PDL> method C<wcols> for exporting the entire piddle; use it to write to a 2D piddle as a CSV or other simple ASCII data format quickly and painlessly. The author was tired of having to extract the columns just to write them all to a file.
@@ -31,7 +35,7 @@ The method returns the number of columns that were written.
 
 The method is pushed into the C<PDL> namespace. Should C<PDL> ever provide method of the same name, this module will override it, warning with both the standard Perl redefinition warning as well as an additional message from the package. To avoid a conflict a different method name may be passed when loading the module. For example:
 
- use Export2D 'my_export';
+ use PDL::IO::Export2D 'my_export';
 
 causing the method provided by this module to be called as 
 
